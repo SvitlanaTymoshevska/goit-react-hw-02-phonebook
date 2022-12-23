@@ -19,7 +19,8 @@ export class App extends Component {
     const findedName = this.state.contacts.find(contact => { 
       if (contact.name.toLowerCase() === data.name.toLowerCase() && contact.number === data.number) {
         return contact.name;
-      }
+      };
+      return undefined;
     });
 
     if (findedName) {
