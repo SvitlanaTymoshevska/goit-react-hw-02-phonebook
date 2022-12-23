@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { nanoid } from "nanoid";
 import PropTypes from "prop-types";
+import { Form, Label, LabelName, Input, Button } from "components/ContactForm/ContactFotm.styled";
 
 export class ContactForm extends Component {
     static propTypes = {
-        gettingData: PropTypes.func.isRequired,
+        onSubmit: PropTypes.func.isRequired,
     };
     
     state = {
         name: "",
         number: "",
-    }
+    };
 
     onChange = (e) => {
         const { name, value } = e.currentTarget;
@@ -19,13 +20,14 @@ export class ContactForm extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+
         const {name, number} = this.state;
-        const data = {};
-        
-        data.id = nanoid();
-        data.name = name;
-        data.number = number;
-        this.props.gettingData(data);
+        const data = {
+            id: nanoid(),
+            name,
+            number,
+        };
+        this.props.onSubmit(data);
 
         this.setState({name: "", number: ""});
     };
@@ -33,10 +35,12 @@ export class ContactForm extends Component {
     render() {
         const {name, number} = this.state;
         return (
-            <form onSubmit={this.onSubmit}>
-                <label>
-                    Name
-                    <input
+            <Form onSubmit={this.onSubmit}>
+                <Label>
+                    <LabelName>
+                      Name  
+                    </LabelName>
+                    <Input
                         type="text"
                         name="name"
                         value={name} 
@@ -45,10 +49,12 @@ export class ContactForm extends Component {
                         required
                         onChange={this.onChange}
                     />
-                </label>
-                <label>
-                    Number
-                    <input
+                </Label>
+                <Label>
+                    <LabelName>
+                        Number
+                    </LabelName>        
+                    <Input
                         type="tel"
                         name="number"
                         value={number}
@@ -57,12 +63,12 @@ export class ContactForm extends Component {
                         required
                         onChange={this.onChange}
                     />
-                </label>
-                <button 
+                </Label>
+                <Button 
                     type="submit">
                     Add contact
-                </button>
-            </form>
+                </Button>
+            </Form>
         );
     };
 };
